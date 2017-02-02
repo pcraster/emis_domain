@@ -11,6 +11,7 @@ api_restful.add_resource(DomainsAllResource,
 
 # Domain by user-id and domain-id.
 # - Get domain by user-id and domain-id
+# - Delete domain by user-id and domain-id
 api_restful.add_resource(DomainResource,
     "/domains/<uuid:user_id>/<uuid:domain_id>",
     endpoint="domain")

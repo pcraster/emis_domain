@@ -283,5 +283,54 @@ class DomainTestCase(unittest.TestCase):
         self.assertTrue("message" in data)
 
 
+    def test_delete_domain(self):
+        self.post_domains()
+
+        response = self.client.get("/domains")
+        data = response.data.decode("utf8")
+        data = json.loads(data)
+        domains = data["domains"]
+        domain = domains[0]
+        uri = domain["_links"]["self"]
+        response = self.client.delete(uri)
+
+        data = response.data.decode("utf8")
+
+        self.assertEqual(response.status_code, 200, "{}: {}".format(
+            response.status_code, data))
+
+        data = json.loads(data)
+
+        self.assertTrue("domain" in data)
+
+        self.assertEqual(data["domain"], domain)
+
+        self.assertTrue("id" not in domain)
+
+        self.assertTrue("posted_at" in domain)
+
+        self.assertTrue("name" in domain)
+        self.assertEqual(domain["name"], "domain1")
+
+        self.assertTrue("pathname" in domain)
+        self.assertEqual(domain["pathname"], "/some_path/domain1.csv")
+
+        self.assertTrue("_links" in domain)
+
+        links = domain["_links"]
+
+        self.assertTrue("self" in links)
+        self.assertEqual(links["self"], uri)
+
+        self.assertTrue("collection" in links)
+
+
+        response = self.client.get("/domains")
+        data = response.data.decode("utf8")
+        data = json.loads(data)
+        domains = data["domains"]
+        self.assertEqual(len(domains), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

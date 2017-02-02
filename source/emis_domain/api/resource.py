@@ -31,6 +31,31 @@ class DomainResource(Resource):
         return data
 
 
+    def delete(self,
+            user_id,
+            domain_id):
+
+        # user_id is not needed
+        domain = DomainModel.query.get(domain_id)
+
+        if domain is None or domain.user != user_id:
+            raise BadRequest("Domain could not be found")
+
+
+        # Delete domain from database.
+        db.session.delete(domain)
+        db.session.commit()
+
+
+        data, errors = domain_schema.dump(domain)
+
+        if errors:
+            raise InternalServerError(errors)
+
+
+        return data
+
+
 class DomainsResource(Resource):
 
     def get(self,
