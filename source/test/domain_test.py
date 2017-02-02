@@ -2,8 +2,8 @@ import os.path
 import unittest
 import uuid
 from flask import current_app, json
-from domain import create_app, db
-from domain.api.schema import *
+from emis_domain import create_app, db
+from emis_domain.api.schema import *
 
 
 class DomainTestCase(unittest.TestCase):
@@ -148,7 +148,8 @@ class DomainTestCase(unittest.TestCase):
         self.assertEqual(data["domain"], domain)
 
         self.assertTrue("id" not in domain)
-        self.assertTrue("posted_at" not in domain)
+
+        self.assertTrue("posted_at" in domain)
 
         self.assertTrue("name" in domain)
         self.assertEqual(domain["name"], "domain1")
@@ -236,7 +237,8 @@ class DomainTestCase(unittest.TestCase):
         domain = data["domain"]
 
         self.assertTrue("id" not in domain)
-        self.assertTrue("posted_at" not in domain)
+
+        self.assertTrue("posted_at" in domain)
 
         self.assertTrue("name" in domain)
         self.assertEqual(domain["name"], "domain")

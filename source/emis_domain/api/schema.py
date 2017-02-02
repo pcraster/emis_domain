@@ -1,39 +1,22 @@
 import datetime
 import uuid
 from marshmallow import fields, post_dump, post_load, pre_load, ValidationError
+from marshmallow.validate import Length
 from .. import ma
 from .model import DomainModel
-
-
-def must_not_be_blank(
-        data):
-    if not data:
-        raise ValidationError("Data not provided")
-
-
-def must_be_one_of(
-        values):
-
-    def validator(
-            data):
-        if not data in values:
-            raise ValidationError("Value must be one of {}".format(" ".join(
-                values)))
-
-    return validator
 
 
 class DomainSchema(ma.Schema):
 
     class Meta:
         # Fields to include in the serialized result.
-        fields = ("user", "name", "pathname", "_links")
+        fields = ("user", "name", "pathname", "posted_at", "_links")
 
 
     id = fields.UUID(dump_only=True)
     user = fields.UUID(required=True)
-    name = fields.Str(required=True, validate=must_not_be_blank)
-    pathname = fields.Str(required=True, validate=must_not_be_blank)
+    name = fields.Str(required=True, validate=Length(min=1))
+    pathname = fields.Str(required=True, validate=Length(min=1))
     posted_at = fields.DateTime(dump_only=True,
         missing=datetime.datetime.utcnow().isoformat())
     _links = ma.Hyperlinks({

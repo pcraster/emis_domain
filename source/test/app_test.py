@@ -1,6 +1,6 @@
 import unittest
 from flask import current_app, json
-from domain import create_app
+from emis_domain import create_app
 
 
 class AppTest(unittest.TestCase):

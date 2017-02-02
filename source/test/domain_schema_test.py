@@ -1,8 +1,8 @@
 import datetime
 import unittest
 import uuid
-from domain import create_app
-from domain.api.schema import *
+from emis_domain import create_app
+from emis_domain.api.schema import *
 
 
 class DomainSchemaTestCase(unittest.TestCase):
@@ -77,7 +77,7 @@ class DomainSchemaTestCase(unittest.TestCase):
 
         self.assertTrue(errors)
         self.assertEqual(errors, {
-                "name": ["Data not provided"]
+                "name": ["Shorter than minimum length 1."]
             })
 
 
@@ -93,7 +93,7 @@ class DomainSchemaTestCase(unittest.TestCase):
 
         self.assertTrue(errors)
         self.assertEqual(errors, {
-                "pathname": ["Data not provided"]
+                "pathname": ["Shorter than minimum length 1."]
             })
 
 
@@ -137,7 +137,7 @@ class DomainSchemaTestCase(unittest.TestCase):
         self.assertTrue("id" not in domain)
         self.assertTrue("name" in domain)
         self.assertTrue("pathname" in domain)
-        self.assertTrue("posted_at" not in domain)
+        self.assertTrue("posted_at" in domain)
 
         self.assertTrue("_links" in domain)
 
