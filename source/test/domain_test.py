@@ -10,7 +10,7 @@ class DomainTestCase(unittest.TestCase):
 
 
     def setUp(self):
-        self.app = create_app("testing")
+        self.app = create_app("test")
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()

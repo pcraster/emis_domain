@@ -1,5 +1,3 @@
-import os
-os.environ["EMIS_DOMAIN_CONFIGURATION"] = "development"
 from server import app
 
 
